@@ -13,8 +13,11 @@ class TasksController < ApplicationController
     @task = Task.new(:description => params[:task][:description], :due_date => date, :task_list_id => params[:task_list_id])
     if @task.save
       flash[:notice] = "Task was created successfully!"
+      redirect_to root_path
+    else
+      @task_list = TaskList.find(params[:task_list_id])
+      render :new
     end
-    redirect_to root_path
   end
 
 end
