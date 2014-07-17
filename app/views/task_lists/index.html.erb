@@ -1,7 +1,20 @@
+<% flash.each do |name, msg| -%>
+  <%= content_tag :div, msg, class: name %>
+<% end -%>
+
 <% @task_lists.each do |task_list| %>
 
   <section class="task-list">
     <h1><%= task_list.name %></h1>
+    <h2><%= link_to '+ Add Task', new_task_list_task_path(task_list) %></h2>
+    <% task_list.tasks.each do |task| %>
+      <div class="task">
+        <p>
+          <%= task.description %>
+          (<%= distance_of_time_in_words_to_now(task.due_date) %>)
+        </p>
+      </div>
+    <% end %>
   </section>
 
 <% end %>

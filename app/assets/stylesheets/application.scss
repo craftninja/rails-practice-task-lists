@@ -82,5 +82,21 @@ main {
 
   h1 {
     font-size: 110%;
+    display: inline-block;
+  }
+  h2 {
+    font-size: 90%;
+    float: right;
+    display: inline-block;
+  }
+  .task {
+    background: lightgray;
+    border: 2px gray solid;
+    padding: .5em 0 .5em .5em;
+    margin: .25em 0 .25em 0;
+
+    p {
+      margin: 0 0 0 0 ;
+    }
   }
 }
