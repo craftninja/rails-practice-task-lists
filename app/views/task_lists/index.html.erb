@@ -7,11 +7,19 @@
   <section class="task-list">
     <h1><%= task_list.name %></h1>
     <h2><%= link_to '+ Add Task', new_task_list_task_path(task_list) %></h2>
-    <% task_list.tasks.each do |task| %>
+    <% if task_list.tasks.length > 0%>
+      <% task_list.tasks.each do |task| %>
+        <div class="task">
+          <p>
+            <%= task.description %>
+            (<%= distance_of_time_in_words_to_now(task.due_date) %>)
+          </p>
+        </div>
+      <% end %>
+    <% else %>
       <div class="task">
-        <p>
-          <%= task.description %>
-          (<%= distance_of_time_in_words_to_now(task.due_date) %>)
+        <p id="no_task">
+          Nothing here to see!
         </p>
       </div>
     <% end %>

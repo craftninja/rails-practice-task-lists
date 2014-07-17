@@ -41,4 +41,18 @@ feature 'Task lists' do
     expect(page).to have_content("2 days")
   end
 
+  scenario 'Task lists with no tasks say \'nothing here to see\'' do
+    create_user email: "user@example.com"
+    TaskList.create!(name: "Work List")
+
+    visit signin_path
+    click_on "Login"
+    fill_in "Email", with: "user@example.com"
+    fill_in "Password", with: "password"
+    click_on "Login"
+    expect(page).to have_content("Work List")
+    expect(page).to have_content("Nothing here to see!")
+  end
+
+
 end
