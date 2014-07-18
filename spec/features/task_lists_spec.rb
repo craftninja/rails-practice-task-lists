@@ -38,7 +38,11 @@ feature 'Task lists' do
     click_on "Create Task"
     expect(page).to have_content("Task was created successfully!")
     expect(page).to have_content("Relax and be happy")
-    expect(page).to have_content("2 days")
+    if page.has_content?("2 days")
+      expect(page).to have_content("2 days")
+    else
+      expect(page).to have_content("3 days")
+    end
   end
 
   scenario 'Task lists with no tasks say \'nothing here to see\'' do
