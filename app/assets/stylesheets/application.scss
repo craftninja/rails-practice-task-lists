@@ -95,8 +95,23 @@ main {
     padding: .5em 0 .5em .5em;
     margin: .25em 0 .25em 0;
 
+    div {
+      display: inline-block;
+    }
+    .complete {
+      float: right;
+      display: inline-block;
+      margin: -.25em .3em 0 0;
+      background: whitesmoke;
+      border: 1px black solid;
+      padding: .2em;
+      a {
+        text-decoration: none;
+      }
+    }
+
     p {
-      margin: 0 0 0 0 ;
+      margin: 0 0 0 0;
     }
     #no_task {
       text-align: center;
@@ -114,7 +129,7 @@ main {
 
 #error {
   color: maroon;
-  }
+}
 
 li {
   list-style-type: none;

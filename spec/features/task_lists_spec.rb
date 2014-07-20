@@ -80,5 +80,28 @@ feature 'Task lists' do
     expect(page).to have_content("Your task could not be created")
   end
 
+  scenario 'Users can complete tasks' do
+    create_user email: "user@example.com"
+    TaskList.create!(name: "Work List")
+
+    visit signin_path
+    click_on "Login"
+    fill_in "Email", with: "user@example.com"
+    fill_in "Password", with: "password"
+    click_on "Login"
+    click_on "Add Task"
+    fill_in "Description", with: "Update resume"
+    today = Time.now.to_date
+    year = today.to_s[0..3]
+    month = today.to_s[5..6]
+    day = today.to_s[8..9]
+    select(year, :from => "task[due_date(1i)]")
+    select(month, :from => "task[due_date(2i)]")
+    select(day, :from => "task[due_date(3i)]")
+    click_on "Create Task"
+    click_on "Complete"
+    expect(page).to have_content("Work List")
+    expect(page).to_not have_content("Update resume")
+  end
 
 end

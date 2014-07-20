@@ -10,7 +10,7 @@ class TasksController < ApplicationController
                     params[:task]["due_date(2i)"].to_i,
                     params[:task]["due_date(3i)"].to_i,
     )
-    @task = Task.new(:description => params[:task][:description], :due_date => date, :task_list_id => params[:task_list_id])
+    @task = Task.new(:description => params[:task][:description], :due_date => date, :finished => false, :task_list_id => params[:task_list_id])
     if @task.save
       flash[:notice] = "Task was created successfully!"
       redirect_to root_path
@@ -18,6 +18,13 @@ class TasksController < ApplicationController
       @task_list = TaskList.find(params[:task_list_id])
       render :new
     end
+  end
+
+  def destroy
+    task = Task.find(params[:id])
+    task.finished = true
+    task.save
+    redirect_to root_path
   end
 
 end
