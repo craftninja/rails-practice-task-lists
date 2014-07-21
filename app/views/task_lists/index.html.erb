@@ -8,7 +8,7 @@
     <h1><%= task_list.name %></h1>
     <h2><%= link_to '+ Add Task', new_task_list_task_path(task_list) %></h2>
     <% if task_list.tasks.any? {|task| !task.finished } %>
-      <% task_list.tasks.each do |task| %>
+      <% task_list.tasks.sort_by{|task|task.due_date}.each do |task| %>
         <% if !task.finished %>
         <div class="task">
           <div>
