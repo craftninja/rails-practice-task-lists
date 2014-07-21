@@ -1,28 +1,29 @@
-  <% flash.each do |name, msg| -%>
-    <%= content_tag :div, msg, class: name %>
-  <% end -%>
+<% flash.each do |name, msg| -%>
+  <%= content_tag :div, msg, class: name %>
+<% end -%>
 
 <% @task_lists.each do |task_list| %>
 
   <section class="task-list">
     <h1><%= task_list.name %></h1>
+
     <h2><%= link_to '+ Add Task', new_task_list_task_path(task_list) %></h2>
-    <% if task_list.tasks.any? {|task| !task.finished } %>
-      <% task_list.tasks.sort_by{|task|task.due_date}.each do |task| %>
+    <% if task_list.tasks.any? { |task| !task.finished } %>
+      <% task_list.tasks.sort_by { |task| task.due_date }.each do |task| %>
         <% if !task.finished %>
-        <div class="task">
-          <div>
-            <p>
-              <%= task.description %>
-              (<%= distance_of_time_in_words_to_now(task.due_date) %>)
-            </p>
+          <div class="task">
+            <div>
+              <p>
+                <%= task.description %>
+                (<%= distance_of_time_in_words_to_now(task.due_date) %>)
+              </p>
+            </div>
+            <div class="complete">
+              <p>
+                <%= link_to 'Complete', task_list_task_path(task_list, task), method: :delete %>
+              </p>
+            </div>
           </div>
-          <div class="complete">
-            <p>
-              <%= link_to 'Complete', task_list_task_path(task_list, task), method: :delete %>
-            </p>
-          </div>
-        </div>
         <% end %>
       <% end %>
     <% else %>

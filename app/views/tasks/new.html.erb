@@ -1,9 +1,9 @@
 <h1>Add a task</h1>
 
 <% if @task.errors.any? %>
-      <% @task.errors.full_messages.each do |msg| %>
-        <p id="error"><%= msg.sub('Description can\'t be blank', 'Your task could not be created') %></p>
-      <% end %>
+  <% @task.errors.full_messages.each do |msg| %>
+    <p id="error"><%= msg.sub('Description can\'t be blank', 'Your task could not be created') %></p>
+  <% end %>
 <% end %>
 
 <%= form_for [@task_list, @task] do |f| %>
@@ -11,7 +11,7 @@
   <%= f.label :description %>
   <%= f.text_field :description %>
   <%= f.label :due_date %><br>
-  <%= f.date_select :due_date, {use_two_digit_numbers: true}%><br>
+  <%= f.date_select :due_date, {use_two_digit_numbers: true} %><br>
 
   <%= f.submit %>
 
