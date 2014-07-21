@@ -4,9 +4,9 @@ require 'capybara/rails'
 feature 'Task lists' do
 
   scenario 'User can view task lists' do
-    create_user email: 'user@example.com'
-    TaskList.create!(name: 'Work List')
-    TaskList.create!(name: 'Household Chores')
+    user = create_user email: 'user@example.com'
+    TaskList.create!(name: 'Work List', user_id: user.id)
+    TaskList.create!(name: 'Household Chores', user_id: user.id)
 
     visit signin_path
     click_on 'Login'
@@ -18,8 +18,8 @@ feature 'Task lists' do
   end
 
   scenario 'User can add a task' do
-    create_user email: 'user@example.com'
-    TaskList.create!(name: 'Work List')
+    user = create_user email: 'user@example.com'
+    TaskList.create!(name: 'Work List', user_id: user.id)
 
     visit signin_path
     click_on 'Login'
@@ -46,8 +46,8 @@ feature 'Task lists' do
   end
 
   scenario 'Task lists with no tasks say \'nothing here to see\'' do
-    create_user email: 'user@example.com'
-    TaskList.create!(name: 'Work List')
+    user = create_user email: 'user@example.com'
+    TaskList.create!(name: 'Work List', user_id: user.id)
 
     visit signin_path
     click_on 'Login'
@@ -59,8 +59,8 @@ feature 'Task lists' do
   end
 
   scenario 'User must fill in task description' do
-    create_user email: 'user@example.com'
-    TaskList.create!(name: 'Work List')
+    user = create_user email: 'user@example.com'
+    TaskList.create!(name: 'Work List', user_id: user.id)
 
     visit signin_path
     click_on 'Login'
@@ -81,8 +81,8 @@ feature 'Task lists' do
   end
 
   scenario 'Users can complete tasks' do
-    create_user email: 'user@example.com'
-    TaskList.create!(name: 'Work List')
+    user = create_user email: 'user@example.com'
+    TaskList.create!(name: 'Work List', user_id: user.id)
 
     visit signin_path
     click_on 'Login'
@@ -105,8 +105,8 @@ feature 'Task lists' do
   end
 
   scenario 'Tasks appear in order of due date' do
-    create_user email: 'user@example.com'
-    TaskList.create!(name: 'Work List')
+    user = create_user email: 'user@example.com'
+    TaskList.create!(name: 'Work List', user_id: user.id)
 
     visit signin_path
     click_on 'Login'
@@ -150,6 +150,20 @@ feature 'Task lists' do
     within ('div.task:last div:nth-child(1) p:nth-child(1)') do
       expect(page).to have_content('Get an Interview')
     end
+  end
+
+  scenario 'User can only see tasks they made' do
+    user_1 = create_user email: 'user@example.com'
+    user_2 = create_user name: 'Another User',email: 'anotheruser@example.com'
+    TaskList.create!(name: 'Work List', user_id: user_1.id)
+    TaskList.create!(name: 'Household Chores', user_id: user_2.id)
+    visit signin_path
+    click_on 'Login'
+    fill_in 'Email', with: 'user@example.com'
+    fill_in 'Password', with: 'password'
+    click_on 'Login'
+    expect(page).to have_content('Work List')
+    expect(page).to_not have_content('Household Chores')
   end
 
 end
